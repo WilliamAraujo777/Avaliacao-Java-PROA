@@ -16,7 +16,8 @@ public class ProgramaConta {
         boolean continua = true;            //variavel do tipo boolean para o While
         int tentativa = 3;                  //variavel para tentativas
 
-        //instanciando objeto de Conta, e passando valores
+        //instanciando objeto de Conta, e passando valores(Atenção na Agencia e no numero da conta não passe valores com "0" na frente
+        //não sei bem o porque, mas em pesquisas vi que o java trata valores octais, e eles são referenciados em 08, 09 não entendi muito bem)
         Conta conta = new Conta("William Araujo", 777, 1234, 700.0, "17/07/2015");
 
         msgDefault("Boas vindas ao sistema do banco Will SA.!", "OLÁ!");
