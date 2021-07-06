@@ -11,9 +11,10 @@ public class ProgramaConta {
         SimpleDateFormat formatadorData  = new SimpleDateFormat("dd/MM/yyyy");//criando mascara de formatação da data
         DecimalFormat    formatadorValor = new DecimalFormat("0.00");//criando mascara de formatação dos valores
 
-        int agencia, numeroConta, opcao = 0;//criando variaveis para agencia, numeroConta e opção
-        boolean continua = true;//variavel do tipo boolean para o While
-        int tentativa = 3;//variavel para tentativas
+        int opcao = 0;//criando variaveis para agencia, numeroConta e opção
+        String numeroConta, agencia = ""; 
+        boolean continua = true;            //variavel do tipo boolean para o While
+        int tentativa = 3;                  //variavel para tentativas
 
         //instanciando objeto de Conta, e passando valores
         Conta conta = new Conta("William Araujo", 777, 1234, 700.0, "17/07/2015");
@@ -23,12 +24,17 @@ public class ProgramaConta {
         while (continua) { // Laço de repetição responsável por verificar se a agência está correta
 
             try { // Esse try está ai para capturar caso o usuario digite uma letra ao invéz de um numero
+ 
                 agencia = msgInput("Digite sua agencia: ", "AGÊNCIA");
                 
-                if (conta.getAgencia() == agencia) {
+                //esse primeiro if apenas verifica se você selecionou a opção de "cancel" ou o X da mensagem, e para evitar um erro
+                //ele a fecha
+                if(agencia == null){
+                    System.exit(0);
+                }else if (conta.getAgencia() == Integer.parseInt(agencia)) {
                     msgDefault("Agência encontrada!\nProssiga apertando em OK", "AGÊNCIA");
                     continua = false;
-                } else {
+                }else{
                     tentativa -= 1;
                     if (tentativa < 1) {
                         msgErro("Conta bloqueada!\nNão há mais tentativas restantes, contate o ADM!", "ERRO");
@@ -48,7 +54,12 @@ public class ProgramaConta {
         while (continua) {// Laço de repetição responsável por verificar se a conta está correta
             try {// Esse try está ai para capturar caso o usuario digite uma letra ao invéz de um numero
                 numeroConta = msgInput("Digite sua conta: ", "CONTA");
-                if (conta.getNumero() == numeroConta) {
+                
+                //esse primeiro if apenas verifica se você selecionou a opção de "cancel" ou o X da mensagem, e para evitar um erro
+                //ele a fecha 
+                if(numeroConta == null){
+                    System.exit(0);
+                }else if (conta.getNumero() == Integer.parseInt(numeroConta)) {
                     msgDefault("Numero da conta encontrado! Prossiga para os nossos serviços", "CONTA");
                     continua = false;
                 } else {
@@ -73,9 +84,9 @@ public class ProgramaConta {
                 
             // a variavel "opcao" está sendo responsável por capturar a opção escolhida pelo
             // usuario
-            opcao = msgInput("Selecione a opção desejada: " + "\n 1 = Dados da conta" + "\n 2 = Depositar"
+            opcao = Integer.parseInt(msgInput("Selecione a opção desejada: " + "\n 1 = Dados da conta" + "\n 2 = Depositar"
                     + "\n 3 = Sacar" + "\n 4 = Verificar rendimento da conta " + "\n 5 = Finalizar sistema ",
-                    "MENU PRINCIPAL");
+                    "MENU PRINCIPAL"));
 
             
 
@@ -94,8 +105,8 @@ public class ProgramaConta {
 
                     //segunda opção responsável por realizar um depósito na conta do usuario, a mesma verifica se ele é maior que 0 para continuar
                     case 2:
-                        double deposito = msgInput("Saldo atual: R$ " + conta.getSaldo()
-                                + "\nInsira a quantia que deseja depositar na conta:", "DEPOSITO");
+                        double deposito = Integer.parseInt(msgInput("Saldo atual: R$ " + conta.getSaldo()
+                                + "\nInsira a quantia que deseja depositar na conta:", "DEPOSITO"));
                         if (deposito > 0) {
                             conta.setSaldo(conta.getSaldo() + deposito);
                             msgDefault("O deposito no valor de: R$ " + deposito + " foi realizado com sucesso!"
@@ -108,9 +119,9 @@ public class ProgramaConta {
                     //terceira opção responsável por realizar um saque na conta do usuario, a mesma verifica se ele é maior que 0 para continuar
                     //também verifica se é menor que o saldo atual
                     case 3:
-                        double saque = msgInput(
+                        double saque = Integer.parseInt(msgInput(
                                 "Saldo atual: R$ " + conta.getSaldo() + "\nInsira a quantia que deseja sacar da conta:",
-                                "SAQUE");
+                                "SAQUE"));
 
                         if (saque > 0 && saque <= conta.getSaldo()) {
                             conta.setSaldo(conta.getSaldo() - saque);
@@ -128,9 +139,9 @@ public class ProgramaConta {
                     //quarta opção é reponsável por realizar um teste de rendimento na conta, o usuario insere uma quantidade de meses que deseja
                     //deixar o dinheiro rendendo, e o programa retorna a quantia que o saldo teria depois daquele período
                     case 4:
-                        int meses = msgInput("O seu dinheiro está rendendo 0.5% ao mês no nosso banco!"
+                        int meses = Integer.parseInt(msgInput("O seu dinheiro está rendendo 0.5% ao mês no nosso banco!"
                                 + "\n Deseja realizar um teste e verificar quanto ele irá render em X meses?"
-                                + "\n Insira a quantidade de meses que deseja deixar rendendo: ", "RENDIMENTO");
+                                + "\n Insira a quantidade de meses que deseja deixar rendendo: ", "RENDIMENTO"));
 
                         double valorRendido = conta.calculaRendimento(meses);
                         double acrescimo = valorRendido - conta.getSaldo();
@@ -143,10 +154,10 @@ public class ProgramaConta {
                     
                     //quinta opção, responsável por finalizar o sistema, ela pergunta se o usuario realmente deseja fazer tal ato
                     case 5:
-                        int i = msgConfirmar("Você realmente deseja finalizar o sistema?", "ATENÇÃO");
+                        int i = msgConfirmarSaida();
                         if (i == JOptionPane.YES_OPTION) {
                             msgDefault("Obrigado por utilizar nossos serviços!" + "\nO sistema será finalizado."
-                                    + "\nAté mais " + conta.getNomeTitular(), "SAIR");
+                                    + "\nAté mais " + conta.getNomeTitular() + "!", "SAIR");
                             System.exit(0);
                         } else {
                             break;
@@ -168,12 +179,12 @@ public class ProgramaConta {
         JOptionPane.showMessageDialog(null, msg, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static int msgInput(String msg, String titulo) {
-        return Integer.parseInt(JOptionPane.showInputDialog(null, msg, titulo, JOptionPane.QUESTION_MESSAGE), 10);
+    public static String msgInput(String msg, String titulo) {
+        return JOptionPane.showInputDialog(null, msg, titulo, JOptionPane.QUESTION_MESSAGE);
     }
 
-    public static int msgConfirmar(String msg, String titulo) {
-        return JOptionPane.showConfirmDialog(null, msg, titulo, JOptionPane.YES_NO_OPTION);
+    public static int msgConfirmarSaida() {
+        return JOptionPane.showConfirmDialog(null, "Você realmente deseja finalizar o sistema?", "ATENÇÃO", JOptionPane.YES_NO_OPTION);
     }
 
     public static void msgErro(String msg, String titulo) {
