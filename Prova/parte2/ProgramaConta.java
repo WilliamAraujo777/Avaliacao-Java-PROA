@@ -26,12 +26,12 @@ public class ProgramaConta {
                 agencia = msgInput("Digite sua agencia: ", "AGÊNCIA");
                 
                 if (conta.getAgencia() == agencia) {
-                    msgDefault("Agência encontrada! Prossiga apertando em OK", "AGÊNCIA");
+                    msgDefault("Agência encontrada!\nProssiga apertando em OK", "AGÊNCIA");
                     continua = false;
                 } else {
                     tentativa -= 1;
                     if (tentativa < 1) {
-                        msgErro("Conta bloqueada, não há mais tentativas restantes, contate o ADM!", "ERRO");
+                        msgErro("Conta bloqueada!\nNão há mais tentativas restantes, contate o ADM!", "ERRO");
                         System.exit(0);
                     } else {
                         msgErro("Agencia incorreta! Digite novamente! " + "\nPS: Você tem " + tentativa
@@ -54,7 +54,7 @@ public class ProgramaConta {
                 } else {
                     tentativa -= 1;
                     if (tentativa < 1) {
-                        msgErro("Conta bloqueada, não há mais tentativas restantes, contate o ADM!", "ERRO");
+                        msgErro("Conta bloqueada!\nNão há mais tentativas restantes, contate o ADM!", "ERRO");
                         System.exit(0);
                     } else {
                         msgErro("Numero da conta incorreto! Digite novamente! " + "\nPS: Você tem " + tentativa
