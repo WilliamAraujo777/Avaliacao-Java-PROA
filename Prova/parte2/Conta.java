@@ -1,4 +1,4 @@
-package Avaliacao.parte2;
+package Prova.parte2;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

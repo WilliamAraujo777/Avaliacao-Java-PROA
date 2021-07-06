@@ -1,4 +1,4 @@
-package Avaliacao.parte2;
+package Prova.parte2;
 
 import java.text.DecimalFormat; //DecimalFormat para formatar alguns valores que tinham muitos numeros após a virgula
 import java.text.SimpleDateFormat;//SimpleDateFormat para formartar datas
