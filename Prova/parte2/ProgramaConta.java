@@ -31,6 +31,9 @@ public class ProgramaConta {
                 //ele a fecha
                 if(agencia == null){
                     System.exit(0);
+
+                //ja esse segundo if esta comparando a agencia com a variavel string "agencia"
+                //para isso acontecer estou passando ela para inteiro
                 }else if (conta.getAgencia() == Integer.parseInt(agencia)) {
                     msgDefault("Agência encontrada!\nProssiga apertando em OK", "AGÊNCIA");
                     continua = false;
@@ -59,6 +62,9 @@ public class ProgramaConta {
                 //ele a fecha 
                 if(numeroConta == null){
                     System.exit(0);
+                
+                //ja esse segundo if esta comparando o numero da conta com a variavel string "numeroConta"
+                //para isso acontecer estou passando ela para inteiro
                 }else if (conta.getNumero() == Integer.parseInt(numeroConta)) {
                     msgDefault("Numero da conta encontrado! Prossiga para os nossos serviços", "CONTA");
                     continua = false;
@@ -98,19 +104,19 @@ public class ProgramaConta {
                     // Saldo e data de abertura)
                     case 1:
                         msgDefault(
-                                "Nome do titular: " + conta.getNomeTitular() + "\nSaldo: R$ " + conta.getSaldo()
+                                "Nome do titular: " + conta.getNomeTitular() + "\nSaldo: R$ " + formatadorValor.format(conta.getSaldo())
                                         + "\nData de abertura: " + formatadorData.format(conta.getData_abertura()),
                                 "DADOS DA CONTA");
                         break;
 
                     //segunda opção responsável por realizar um depósito na conta do usuario, a mesma verifica se ele é maior que 0 para continuar
                     case 2:
-                        double deposito = Integer.parseInt(msgInput("Saldo atual: R$ " + conta.getSaldo()
+                        double deposito = Double.parseDouble(msgInput("Saldo atual: R$ " + conta.getSaldo()
                                 + "\nInsira a quantia que deseja depositar na conta:", "DEPOSITO"));
                         if (deposito > 0) {
                             conta.setSaldo(conta.getSaldo() + deposito);
                             msgDefault("O deposito no valor de: R$ " + deposito + " foi realizado com sucesso!"
-                                    + "\nNovo saldo é de R$ " + conta.getSaldo(), "DEPOSITO");
+                                    + "\nNovo saldo é de R$ " + formatadorValor.format(conta.getSaldo()), "DEPOSITO");
                         } else {
                             msgErro("Erro! Por favor, insira um valor válido!", "ERRO");
                         }
@@ -119,14 +125,14 @@ public class ProgramaConta {
                     //terceira opção responsável por realizar um saque na conta do usuario, a mesma verifica se ele é maior que 0 para continuar
                     //também verifica se é menor que o saldo atual
                     case 3:
-                        double saque = Integer.parseInt(msgInput(
+                        double saque = Double.parseDouble(msgInput(
                                 "Saldo atual: R$ " + conta.getSaldo() + "\nInsira a quantia que deseja sacar da conta:",
                                 "SAQUE"));
 
                         if (saque > 0 && saque <= conta.getSaldo()) {
                             conta.setSaldo(conta.getSaldo() - saque);
                             msgDefault("O saque no valor de: R$ " + saque + " foi realizado com sucesso!"
-                                    + "\nNovo saldo é de R$ " + conta.getSaldo(), "SAQUE");
+                                    + "\nNovo saldo é de R$ " + formatadorValor.format(conta.getSaldo()), "SAQUE");
                         } else if (conta.getSaldo() == 0) {
                             msgErro("Erro! Sua conta esta zerada, impossivel realizar o saque!", "ERRO");
                         } else if (saque > conta.getSaldo()) {
